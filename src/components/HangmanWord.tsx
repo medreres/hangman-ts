@@ -3,11 +3,13 @@ import React from "react";
 type HangmanWordProps = {
   guessedLetters: string[];
   wordToGuess: string;
+  revealed: boolean;
 };
 
 export default function HangmanWord({
   guessedLetters,
   wordToGuess,
+  revealed
 }: HangmanWordProps) {
   //   const word = "test";
   //   const guessedLetters = ['t', 'e', 's']
@@ -31,7 +33,7 @@ export default function HangmanWord({
         >
           <span
             style={{
-              visibility: guessedLetters.includes(letter)
+              visibility: guessedLetters.includes(letter) || revealed
                 ? "visible"
                 : "hidden",
             }}
