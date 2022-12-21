@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import words from "../words.json";
 import HangmanDrawing from "./HangmanDrawing";
 import HangmanWord from "./HangmanWord";
+import { NUMBER_OF_BODYPARTS } from "./helpers/HangmanBodyParts";
 import Keyboard from "./Keyboard";
 
 function App() {
@@ -14,6 +15,11 @@ function App() {
   const incorrectLetters = guessedLetters.filter(
     (letter) => !wordToGuess.includes(letter)
   );
+
+  const isLoser = incorrectLetters.length > NUMBER_OF_BODYPARTS;
+  const isWinner = wordToGuess
+    .split("")
+    .every((letter) => guessedLetters.includes(letter));
 
   const addGuessedLetter = useCallback(
     (letter: string) => {
@@ -58,7 +64,9 @@ function App() {
           textAlign: "center",
         }}
       >
-        Lose Win
+        {isLoser && <span>Loser</span>}
+        {isWinner && <span>Winner</span>}
+        {(isWinner || isLoser) && <span> - Refresh to try again</span>}
       </div>
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
       <HangmanWord guessedLetters={guessedLetters} wordToGuess={wordToGuess} />
@@ -67,7 +75,14 @@ function App() {
           alignSelf: "stretch",
         }}
       >
-        <Keyboard />
+        <Keyboard
+        disabled={isWinner || isLoser}
+          activeLetters={guessedLetters.filter((letter) =>
+            wordToGuess.includes(letter)
+          )}
+          inactiveLetters={incorrectLetters}
+          addGuessedLetter={addGuessedLetter}
+        />
       </div>
     </div>
   );

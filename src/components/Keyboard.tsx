@@ -1,35 +1,20 @@
 import React from "react";
-import styles from './Keyboard.module.css'
-const KEYS = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
+import { KEYS } from "./helpers/Keys";
+import styles from "./Keyboard.module.css";
 
-export default function Keyboard() {
+type KeyboardProps = {
+  addGuessedLetter: (letter: string) => void;
+  inactiveLetters: string[];
+  activeLetters: string[];
+  disabled: boolean;
+};
+
+export default function Keyboard({
+  addGuessedLetter,
+  inactiveLetters,
+  activeLetters,
+  disabled,
+}: KeyboardProps) {
   return (
     <div
       style={{
@@ -38,12 +23,23 @@ export default function Keyboard() {
         gap: ".5rem",
       }}
     >
-      {KEYS.map((key) => (
-        <button
-        className={`${styles.btn}`}
-        disabled 
-         key={key}>{key}</button>
-      ))}
+      {KEYS.map((key) => {
+        const isActive = activeLetters.includes(key);
+        const isInactive = inactiveLetters.includes(key);
+        return (
+          <button
+            onClick={() => {
+              addGuessedLetter(key);
+            }}
+            disabled={inactiveLetters.includes(key) || disabled}
+            className={`${styles.btn} ${isActive ? styles.active : ""}
+            ${isInactive || disabled ? styles.inactive : ""}`}
+            key={key}
+          >
+            {key}
+          </button>
+        );
+      })}
     </div>
   );
 }

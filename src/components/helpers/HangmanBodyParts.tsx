@@ -1,4 +1,5 @@
 import React from 'react';
+export const NUMBER_OF_BODYPARTS = 6;
 export const HEAD = (
     <div style={{
         width: '50px',

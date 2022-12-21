@@ -5,7 +5,7 @@ import {
   RIGHT_LEG,
   LEFT_LEG,
   LEFT_ARM,
-} from "./HangmanBodyParts";
+} from "./helpers/HangmanBodyParts";
 
 type HangmanDrawingProps = {
   numberOfGuesses: number;
