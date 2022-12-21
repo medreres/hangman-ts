@@ -6,9 +6,9 @@ import { NUMBER_OF_BODYPARTS } from "./helpers/HangmanBodyParts";
 import Keyboard from "./Keyboard";
 
 function App() {
-  const [wordToGuess, setWordToGuess] = useState<string>(() => {
-    return words[Math.floor(Math.random() * words.length)];
-  });
+  const getWord = () => words[Math.floor(Math.random() * words.length)];
+
+  const [wordToGuess, setWordToGuess] = useState<string>(getWord);
 
   const [guessedLetters, setGuessedLetters] = useState<string[]>([]);
 
@@ -48,6 +48,26 @@ function App() {
     };
   }, [addGuessedLetter]);
 
+  useEffect(() => {
+    if (disabled) return;
+    const handler = (e: KeyboardEvent) => {
+      const key = e.key;
+
+      if (key !== "Enter") return;
+
+      setWordToGuess(getWord());
+      setGuessedLetters([]);
+
+      e.preventDefault();
+    };
+
+    document.addEventListener("keypress", handler);
+
+    return () => {
+      document.removeEventListener("keypress", handler);
+    };
+  }, []);
+
   return (
     <div
       style={{
@@ -70,7 +90,11 @@ function App() {
         {disabled && <span> - Refresh to try again</span>}
       </div>
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
-      <HangmanWord revealed={disabled} guessedLetters={guessedLetters} wordToGuess={wordToGuess} />
+      <HangmanWord
+        revealed={disabled}
+        guessedLetters={guessedLetters}
+        wordToGuess={wordToGuess}
+      />
       <div
         style={{
           alignSelf: "stretch",
