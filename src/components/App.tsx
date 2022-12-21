@@ -87,7 +87,7 @@ function App() {
       >
         {isLoser && <span>Loser</span>}
         {isWinner && <span>Winner</span>}
-        {disabled && <span> - Refresh to try again</span>}
+        {disabled && <span> - Press Enter to try again</span>}
       </div>
       <HangmanDrawing numberOfGuesses={incorrectLetters.length} />
       <HangmanWord
