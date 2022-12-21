@@ -11,7 +11,7 @@ type HangmanDrawingProps = {
   numberOfGuesses: number;
 };
 
-const BODY_PARTS = [HEAD, BODY, RIGHT_ARM, RIGHT_LEG, LEFT_LEG];
+const BODY_PARTS = [HEAD, BODY, RIGHT_ARM, LEFT_ARM, RIGHT_LEG, LEFT_LEG];
 
 export default function HangmanDrawing({
   numberOfGuesses,
